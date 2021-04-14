@@ -64,8 +64,8 @@
                   id="env-prod"
                   name="env-type"
                   :value="prodOption"
+                  :disabled="!dynamicBadgeEnabled"
                   v-model="envType"
-                  :disabled="!envEnabled"
                   checked
                 />
                 <label for="env-prod">{{ prodOption }}</label>
@@ -75,8 +75,8 @@
                   id="env-dev"
                   name="env-type"
                   :value="devOption"
+                  :disabled="!dynamicBadgeEnabled"
                   v-model="envType"
-                  :disabled="!envEnabled"
                 />
                 <label for="env-dev">{{ devOption }}</label>
               </div>
@@ -86,26 +86,32 @@
             <fieldset name="ghRepo">
               <legend>GitHub repo</legend>
 
-              <TextInput label="Username" v-model="username" />
+              <TextInput label="Username" v-model="username" 
+                  :disabled="!dynamicBadgeEnabled"
+              />
               <br />
 
-              <TextInput label="Repo name" v-model="repoName" />
+              <TextInput label="Repo name" v-model="repoName" 
+                  :disabled="!dynamicBadgeEnabled"
+              />
             </fieldset>
             <br />
 
             <fieldset name="appearance">
               <legend>Dynamic badge appearance</legend>
+              
               <TextInput
                 label="Logo"
                 v-model="logo"
                 placeholder="e.g. vue.js"
                 note="Supports values like `dependabot`, `discord` and `npm`. And hundreds of logos from [SimpleIcons](https://simpleicons.org/) such as `python`, `node.js` and `visual-studio-code`"
+                :disabled="!dynamicBadgeEnabled"
               />
 
               <TextInput
                 label="Logo color"
                 v-model="logoColor"
-                :disabled="logo === ''"
+                :disabled="logo === '' || !dynamicBadgeEnabled"
                 note="You can override with your own color, or leave blank to use the badge's own rich colors (these are often poor for reading on a dark background, while `white` is bland but most readable)."
               />
             </fieldset>
@@ -174,7 +180,7 @@ export default Vue.extend({
     };
   },
   computed: {
-    envEnabled(): boolean {
+    dynamicBadgeEnabled(): boolean {
       return this.pkgType === "Node";
     },
   },
